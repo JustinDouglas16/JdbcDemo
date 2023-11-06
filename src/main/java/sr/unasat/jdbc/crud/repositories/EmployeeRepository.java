@@ -31,6 +31,7 @@ public class EmployeeRepository {
             statement.setString(3, employee.getLastName());
             statement.setString(4, employee.getEmail());
             result = statement.executeUpdate();
+            System.out.println("Inserted: " + employee.getFirstName() + " " + employee.getLastName());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
