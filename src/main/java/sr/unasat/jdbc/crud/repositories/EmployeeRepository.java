@@ -72,7 +72,7 @@ public class EmployeeRepository {
         return result;
     }
 
-    public int deleteOneRecord(Employee employee) {
+    public int deleteOneRecord(@NotNull Employee employee) {
         PreparedStatement statement = null;
         int result = 0;
 
