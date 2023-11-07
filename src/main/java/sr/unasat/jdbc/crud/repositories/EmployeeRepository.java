@@ -6,6 +6,7 @@ import sr.unasat.jdbc.crud.entities.Employee;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EmployeeRepository {
@@ -44,6 +45,38 @@ public class EmployeeRepository {
             }
         }
         return result;
+    }
+
+    public Employee findOneRecord(int id) {
+        Employee employee = null;
+        PreparedStatement statement = null;
+        try {
+            String sql = "SELECT * FROM employee WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int idNumber = resultSet.getInt("id");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String email = resultSet.getString("email");
+                System.out.println("Employee ID: " + id);
+                System.out.println("First Name: " + firstName);
+                System.out.println("Last Name: " + lastName);
+                System.out.println("Email: " + email);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return employee;
     }
 
     public int updateOneRecord(@NotNull Employee employee) {
