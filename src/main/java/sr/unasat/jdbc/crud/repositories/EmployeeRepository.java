@@ -46,6 +46,32 @@ public class EmployeeRepository {
         return result;
     }
 
+    public int updateOneRecord(@NotNull Employee employee) {
+        PreparedStatement statement = null;
+        int result = 0;
+        try {
+            String sql = "UPDATE employee SET first_name = ?, last_name = ?, email = ? WHERE employee.id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, employee.getFirstName());
+            statement.setString(2, employee.getLastName());
+            statement.setString(3, employee.getEmail());
+            statement.setInt(4, employee.getId());
+            result = statement.executeUpdate();
+            System.out.println("Updated: ");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return result;
+    }
+
     public int deleteOneRecord(Employee employee) {
         PreparedStatement statement = null;
         int result = 0;
